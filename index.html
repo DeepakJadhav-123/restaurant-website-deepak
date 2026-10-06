@@ -1,0 +1,3992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RoyalBite Restaurant</title>
+
+<style>
+:root{
+    --gold:#d4af37;
+    --gold-light:#f5d76e;
+    --black:#080808;
+    --dark:#111;
+    --card:#171717;
+    --border:#2d2d2d;
+    --muted:#aaa;
+    --green:#35d878;
+    --red:#ff4f4f;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:var(--black);
+    color:white;
+}
+
+body.modal-open{
+    overflow:hidden;
+}
+
+/* NAVBAR */
+nav{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    z-index:1000;
+    background:rgba(0,0,0,.95);
+    border-bottom:1px solid var(--gold);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:17px 6%;
+}
+
+.logo{
+    font-size:27px;
+    font-weight:bold;
+    color:var(--gold);
+}
+
+.logo span{
+    color:white;
+}
+
+nav ul{
+    display:flex;
+    align-items:center;
+    gap:20px;
+    list-style:none;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    font-size:14px;
+    transition:.3s;
+}
+
+nav a:hover{
+    color:var(--gold);
+}
+
+.nav-cart{
+    background:var(--gold);
+    color:#000!important;
+    padding:10px 15px;
+    border-radius:25px;
+    font-weight:bold;
+}
+
+.hamburger{
+    display:none;
+    font-size:28px;
+    cursor:pointer;
+}
+
+/* HERO */
+.hero{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:100px 20px;
+    background:
+    linear-gradient(rgba(0,0,0,.58),rgba(0,0,0,.9)),
+    url("https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1600&q=80")
+    center/cover;
+}
+
+.hero h1{
+    font-size:70px;
+    color:var(--gold);
+    margin-bottom:15px;
+}
+
+.hero p{
+    font-size:21px;
+    margin-bottom:30px;
+}
+
+.hero-buttons{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.hero-stats{
+    display:flex;
+    justify-content:center;
+    gap:45px;
+    margin-top:45px;
+    flex-wrap:wrap;
+}
+
+.hero-stat strong{
+    display:block;
+    color:var(--gold);
+    font-size:25px;
+}
+
+.hero-stat span{
+    color:#aaa;
+    font-size:13px;
+}
+
+/* BUTTON */
+.btn{
+    display:inline-block;
+    padding:13px 25px;
+    background:var(--gold);
+    color:#000;
+    border:none;
+    border-radius:30px;
+    text-decoration:none;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.btn:hover{
+    background:white;
+    transform:translateY(-2px);
+}
+
+.btn-small{
+    padding:7px 12px;
+    border-radius:7px;
+    font-size:12px;
+}
+
+.btn-danger{
+    background:var(--red);
+    color:white;
+}
+
+.btn-green{
+    background:var(--green);
+}
+
+/* SECTIONS */
+section{
+    padding:85px 6%;
+}
+
+.title{
+    text-align:center;
+    margin-bottom:40px;
+}
+
+.title h2{
+    color:var(--gold);
+    font-size:40px;
+}
+
+.title p{
+    color:var(--muted);
+    margin-top:8px;
+}
+
+/* MENU */
+.menu-controls{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:25px;
+}
+
+#search{
+    width:90%;
+    max-width:500px;
+    padding:14px 20px;
+    border-radius:25px;
+    border:1px solid var(--gold);
+    background:#151515;
+    color:white;
+    outline:none;
+}
+
+.category-btn{
+    padding:10px 16px;
+    border:1px solid #444;
+    background:#151515;
+    color:white;
+    border-radius:20px;
+    cursor:pointer;
+}
+
+.category-btn.active,
+.category-btn:hover{
+    background:var(--gold);
+    color:#000;
+}
+
+.menu{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(245px,1fr));
+    gap:25px;
+}
+
+.card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:18px;
+    overflow:hidden;
+    transition:.35s;
+}
+
+.card:hover{
+    transform:translateY(-7px);
+    border-color:var(--gold);
+    box-shadow:0 10px 30px rgba(212,175,55,.16);
+}
+
+.card img{
+    width:100%;
+    height:190px;
+    object-fit:cover;
+}
+
+.card-content{
+    padding:20px;
+}
+
+.card h3{
+    color:var(--gold);
+    margin-bottom:8px;
+}
+
+.card p{
+    color:#aaa;
+    line-height:1.5;
+    min-height:45px;
+}
+
+.price{
+    font-size:20px;
+    font-weight:bold;
+    margin:15px 0;
+}
+
+/* OFFER */
+.offer{
+    background:linear-gradient(135deg,#171717,#241f0b);
+    text-align:center;
+    border-top:1px solid var(--gold);
+    border-bottom:1px solid var(--gold);
+}
+
+.offer h2{
+    color:var(--gold);
+    font-size:42px;
+}
+
+.offer p{
+    margin:15px 0 25px;
+}
+
+/* GALLERY */
+.gallery{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:15px;
+}
+
+.gallery img{
+    width:100%;
+    height:230px;
+    object-fit:cover;
+    border-radius:15px;
+    transition:.3s;
+}
+
+.gallery img:hover{
+    transform:scale(1.03);
+}
+
+/* FORM */
+.form-box{
+    max-width:720px;
+    margin:auto;
+    background:var(--card);
+    padding:30px;
+    border:1px solid #333;
+    border-radius:18px;
+}
+
+.form-box label{
+    display:block;
+    color:#ddd;
+    margin-top:5px;
+}
+
+.form-box input,
+.form-box select,
+.form-box textarea{
+    width:100%;
+    padding:14px;
+    margin:8px 0 15px;
+    border-radius:8px;
+    border:1px solid #444;
+    background:#0e0e0e;
+    color:white;
+    outline:none;
+    font-size:15px;
+}
+
+.form-box input:focus,
+.form-box select:focus,
+.form-box textarea:focus{
+    border-color:var(--gold);
+}
+
+.form-box input[type="date"],
+.form-box input[type="time"]{
+    color-scheme:dark;
+    cursor:pointer;
+}
+
+.form-box textarea{
+    height:110px;
+    resize:none;
+}
+
+.form-help{
+    display:block;
+    color:#888;
+    margin-top:-8px;
+    margin-bottom:15px;
+    font-size:12px;
+}
+
+/* STARS */
+.stars{
+    display:flex;
+    gap:8px;
+    margin:10px 0 20px;
+}
+
+.star{
+    font-size:32px;
+    color:#555;
+    cursor:pointer;
+}
+
+.star.active{
+    color:var(--gold);
+}
+
+/* SUCCESS */
+.success{
+    display:none;
+    margin-top:15px;
+    padding:15px;
+    border-radius:8px;
+    background:#123d22;
+    color:#72efa0;
+    line-height:1.7;
+}
+
+/* DASHBOARD */
+.dashboard{
+    background:#0d0d0d;
+    border-top:1px solid #222;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:18px;
+    margin-bottom:35px;
+}
+
+.stat-card{
+    background:#171717;
+    border:1px solid #292929;
+    border-radius:15px;
+    padding:22px;
+}
+
+.stat-card h3{
+    color:#aaa;
+    font-size:14px;
+}
+
+.stat-card strong{
+    display:block;
+    color:var(--gold);
+    font-size:30px;
+    margin-top:8px;
+}
+
+.dashboard-tabs{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:25px;
+}
+
+.tab-btn{
+    padding:12px 20px;
+    background:#171717;
+    border:1px solid #444;
+    color:white;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.tab-btn.active,
+.tab-btn:hover{
+    background:var(--gold);
+    color:#000;
+}
+
+.admin-toolbar{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:20px;
+}
+
+.admin-search{
+    background:#151515;
+    color:white;
+    border:1px solid #444;
+    padding:12px;
+    border-radius:8px;
+    min-width:250px;
+}
+
+.data-table{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    min-width:800px;
+    border-collapse:collapse;
+    background:#151515;
+}
+
+th,td{
+    padding:13px;
+    border-bottom:1px solid #292929;
+    text-align:left;
+    font-size:13px;
+}
+
+th{
+    color:var(--gold);
+    background:#101010;
+}
+
+td{
+    color:#ddd;
+}
+
+.empty{
+    text-align:center;
+    color:#777;
+    padding:40px;
+}
+
+/* CONTACT */
+.contact{
+    text-align:center;
+    background:#111;
+}
+
+.contact-box{
+    display:flex;
+    justify-content:center;
+    gap:25px;
+    flex-wrap:wrap;
+}
+
+.contact-item{
+    background:#191919;
+    padding:25px;
+    min-width:220px;
+    border-radius:15px;
+}
+
+.contact-item h3{
+    color:var(--gold);
+    margin-bottom:10px;
+}
+
+/* CART */
+.cart-float{
+    position:fixed;
+    right:22px;
+    bottom:22px;
+    z-index:999;
+    width:62px;
+    height:62px;
+    background:var(--gold);
+    color:#000;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:23px;
+    cursor:pointer;
+    box-shadow:0 5px 20px rgba(0,0,0,.5);
+}
+
+#cartCount{
+    position:absolute;
+    top:-4px;
+    right:-4px;
+    background:red;
+    color:white;
+    width:23px;
+    height:23px;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:12px;
+}
+
+/* MODALS */
+.modal{
+    display:none;
+    position:fixed;
+    z-index:2000;
+    inset:0;
+    background:rgba(0,0,0,.84);
+    padding:20px;
+    overflow:auto;
+}
+
+.modal.show{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.modal-box{
+    width:100%;
+    max-width:650px;
+    max-height:90vh;
+    overflow:auto;
+    background:#151515;
+    border:1px solid var(--gold);
+    border-radius:18px;
+    padding:25px;
+    position:relative;
+}
+
+.modal-box h2{
+    color:var(--gold);
+    margin-bottom:20px;
+}
+
+.close{
+    position:absolute;
+    top:10px;
+    right:18px;
+    font-size:30px;
+    color:#aaa;
+    cursor:pointer;
+}
+
+.close:hover{
+    color:white;
+}
+
+.cart-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    padding:15px 0;
+    border-bottom:1px solid #292929;
+}
+
+.qty-controls{
+    display:flex;
+    align-items:center;
+    gap:7px;
+}
+
+.qty-btn{
+    width:29px;
+    height:29px;
+    border:none;
+    border-radius:50%;
+    background:#333;
+    color:white;
+    cursor:pointer;
+}
+
+.total-row{
+    display:flex;
+    justify-content:space-between;
+    margin:8px 0;
+}
+
+.grand-total{
+    color:var(--gold);
+    font-size:22px;
+    font-weight:bold;
+    border-top:1px solid #444;
+    padding-top:12px;
+}
+
+/* TOAST */
+.toast{
+    position:fixed;
+    top:85px;
+    right:25px;
+    z-index:4000;
+    background:#1c1c1c;
+    color:white;
+    border:1px solid var(--gold);
+    padding:14px 20px;
+    border-radius:8px;
+    transform:translateX(140%);
+    transition:.4s;
+}
+
+.toast.show{
+    transform:translateX(0);
+}
+
+/* FOOTER */
+footer{
+    text-align:center;
+    padding:30px;
+    background:#050505;
+    color:#888;
+    border-top:1px solid #222;
+}
+
+/* MOBILE */
+@media(max-width:850px){
+
+    nav ul{
+        display:none;
+        position:absolute;
+        top:68px;
+        left:0;
+        width:100%;
+        background:#080808;
+        flex-direction:column;
+        padding:20px;
+        border-bottom:1px solid var(--gold);
+    }
+
+    nav ul.open{
+        display:flex;
+    }
+
+    .hamburger{
+        display:block;
+    }
+
+    .hero h1{
+        font-size:46px;
+    }
+
+    .hero p{
+        font-size:17px;
+    }
+
+    section{
+        padding:65px 5%;
+    }
+
+    .title h2{
+        font-size:32px;
+    }
+
+    .hero-stats{
+        gap:25px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<nav>
+
+    <div class="logo">
+        ROYAL<span>BITE</span>
+    </div>
+
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
+
+    <ul id="navMenu">
+
+        <li><a href="#home">Home</a></li>
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#booking">Book Table</a></li>
+        <li><a href="#feedback">Feedback</a></li>
+        <li><a href="#dashboard">Admin</a></li>
+        <li><a href="#contact">Contact</a></li>
+
+        <li>
+            <a href="javascript:void(0)"
+               class="nav-cart"
+               onclick="openCart()">
+                🛒 Cart (<span id="navCartCount">0</span>)
+            </a>
+        </li>
+
+    </ul>
+
+</nav>
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero" id="home">
+
+    <div>
+
+        <h1>RoyalBite</h1>
+
+        <p>
+            Where Every Bite Feels Royal 👑
+        </p>
+
+        <div class="hero-buttons">
+
+            <a href="#menu" class="btn">
+                Explore Menu
+            </a>
+
+            <a href="#booking"
+               class="btn"
+               style="background:white">
+                Book Table
+            </a>
+
+        </div>
+
+        <div class="hero-stats">
+
+            <div class="hero-stat">
+                <strong>50+</strong>
+                <span>Menu Items</span>
+            </div>
+
+            <div class="hero-stat">
+                <strong>4.9 ⭐</strong>
+                <span>Customer Rating</span>
+            </div>
+
+            <div class="hero-stat">
+                <strong>10K+</strong>
+                <span>Happy Customers</span>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= MENU ================= -->
+
+<section id="menu">
+
+    <div class="title">
+
+        <h2>Our Menu</h2>
+
+        <p>
+            Fresh • Delicious • Premium
+        </p>
+
+    </div>
+
+    <div class="menu-controls">
+
+        <input
+            id="search"
+            type="text"
+            placeholder="🔍 Search your favourite food..."
+            oninput="filterMenu()"
+        >
+
+    </div>
+
+    <div class="menu-controls">
+
+        <button
+            class="category-btn active"
+            onclick="filterCategory('all',this)">
+            All
+        </button>
+
+        <button
+            class="category-btn"
+            onclick="filterCategory('pizza',this)">
+            🍕 Pizza
+        </button>
+
+        <button
+            class="category-btn"
+            onclick="filterCategory('burger',this)">
+            🍔 Burger
+        </button>
+
+        <button
+            class="category-btn"
+            onclick="filterCategory('indian',this)">
+            🍛 Indian
+        </button>
+
+        <button
+            class="category-btn"
+            onclick="filterCategory('pasta',this)">
+            🍝 Pasta
+        </button>
+
+        <button
+            class="category-btn"
+            onclick="filterCategory('dessert',this)">
+            🍰 Dessert
+        </button>
+
+        <button
+            class="category-btn"
+            onclick="filterCategory('drink',this)">
+            🥤 Drinks
+        </button>
+
+    </div>
+
+
+    <div class="menu" id="menuList">
+
+        <div class="card"
+             data-name="Margherita Pizza"
+             data-category="pizza">
+
+            <img src="https://images.unsplash.com/photo-1579751626657-72bc17010498?auto=format&fit=crop&w=800&q=80">
+
+            <div class="card-content">
+
+                <h3>Margherita Pizza</h3>
+
+                <p>
+                    Classic cheese pizza with fresh basil.
+                </p>
+
+                <div class="price">
+                    ₹299
+                </div>
+
+                <button
+                    class="btn"
+                    onclick="addToCart('Margherita Pizza',299)">
+                    Add to Cart
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="card"
+             data-name="Royal Burger"
+             data-category="burger">
+
+            <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80">
+
+            <div class="card-content">
+
+                <h3>Royal Burger</h3>
+
+                <p>
+                    Juicy premium burger with crispy fries.
+                </p>
+
+                <div class="price">
+                    ₹249
+                </div>
+
+                <button
+                    class="btn"
+                    onclick="addToCart('Royal Burger',249)">
+                    Add to Cart
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="card"
+             data-name="Italian Pasta"
+             data-category="pasta">
+
+            <img src="https://images.unsplash.com/photo-1551892374-ecf8754cf8b0?auto=format&fit=crop&w=800&q=80">
+
+            <div class="card-content">
+
+                <h3>Italian Pasta</h3>
+
+                <p>
+                    Creamy pasta prepared with Italian herbs.
+                </p>
+
+                <div class="price">
+                    ₹279
+                </div>
+
+                <button
+                    class="btn"
+                    onclick="addToCart('Italian Pasta',279)">
+                    Add to Cart
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="card"
+             data-name="Paneer Tikka"
+             data-category="indian">
+
+            <img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=800&q=80">
+
+            <div class="card-content">
+
+                <h3>Paneer Tikka</h3>
+
+                <p>
+                    Soft paneer grilled with Indian spices.
+                </p>
+
+                <div class="price">
+                    ₹229
+                </div>
+
+                <button
+                    class="btn"
+                    onclick="addToCart('Paneer Tikka',229)">
+                    Add to Cart
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="card"
+             data-name="Chocolate Dessert"
+             data-category="dessert">
+
+            <img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=800&q=80">
+
+            <div class="card-content">
+
+                <h3>Chocolate Dessert</h3>
+
+                <p>
+                    Rich chocolate dessert for sweet lovers.
+                </p>
+
+                <div class="price">
+                    ₹179
+                </div>
+
+                <button
+                    class="btn"
+                    onclick="addToCart('Chocolate Dessert',179)">
+                    Add to Cart
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="card"
+             data-name="Fresh Mocktail"
+             data-category="drink">
+
+            <img src="https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=800&q=80">
+
+            <div class="card-content">
+
+                <h3>Fresh Mocktail</h3>
+
+                <p>
+                    Refreshing fruit mocktail with premium flavours.
+                </p>
+
+                <div class="price">
+                    ₹149
+                </div>
+
+                <button
+                    class="btn"
+                    onclick="addToCart('Fresh Mocktail',149)">
+                    Add to Cart
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="card"
+             data-name="Farmhouse Pizza"
+             data-category="pizza">
+
+            <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=800&q=80">
+
+            <div class="card-content">
+
+                <h3>Farmhouse Pizza</h3>
+
+                <p>
+                    Loaded pizza with fresh vegetables and cheese.
+                </p>
+
+                <div class="price">
+                    ₹349
+                </div>
+
+                <button
+                    class="btn"
+                    onclick="addToCart('Farmhouse Pizza',349)">
+                    Add to Cart
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="card"
+             data-name="Butter Paneer"
+             data-category="indian">
+
+            <img src="https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?auto=format&fit=crop&w=800&q=80">
+
+            <div class="card-content">
+
+                <h3>Butter Paneer</h3>
+
+                <p>
+                    Creamy paneer cooked in rich tomato gravy.
+                </p>
+
+                <div class="price">
+                    ₹299
+                </div>
+
+                <button
+                    class="btn"
+                    onclick="addToCart('Butter Paneer',299)">
+                    Add to Cart
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= OFFER ================= -->
+
+<section class="offer">
+
+    <h2>
+        🔥 Special Offer
+    </h2>
+
+    <p>
+        Get 20% OFF on your first online order!
+    </p>
+
+    <a href="#menu" class="btn">
+        Order Now
+    </a>
+
+</section>
+
+
+<!-- ================= GALLERY ================= -->
+
+<section id="gallery">
+
+    <div class="title">
+
+        <h2>Food Gallery</h2>
+
+        <p>
+            A glimpse of our delicious world
+        </p>
+
+    </div>
+
+    <div class="gallery">
+
+        <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=800&q=80">
+
+        <img src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?auto=format&fit=crop&w=800&q=80">
+
+        <img src="https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&w=800&q=80">
+
+        <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=800&q=80">
+
+    </div>
+
+</section>
+
+
+<!-- ================= BOOKING ================= -->
+
+<section id="booking">
+
+    <div class="title">
+
+        <h2>
+            Reserve Your Table
+        </h2>
+
+        <p>
+            Choose your date and time
+        </p>
+
+    </div>
+
+
+    <div class="form-box">
+
+        <form id="bookingForm"
+              onsubmit="bookTable(event)">
+
+            <input
+                type="text"
+                id="bookingName"
+                placeholder="Full Name"
+                required
+            >
+
+            <input
+                type="email"
+                id="bookingEmail"
+                placeholder="Email Address"
+                required
+            >
+
+            <input
+                type="tel"
+                id="bookingPhone"
+                placeholder="Phone Number"
+                pattern="[0-9+() -]{8,20}"
+                required
+            >
+
+
+            <!-- DATE -->
+
+            <label for="bookingDate">
+                📅 Reservation Date
+            </label>
+
+            <input
+                type="date"
+                id="bookingDate"
+                name="bookingDate"
+                required
+            >
+
+            <small class="form-help">
+                You can select today or a future date.
+            </small>
+
+
+            <!-- TIME -->
+
+            <label for="bookingTime">
+                🕐 Reservation Time
+            </label>
+
+            <input
+                type="time"
+                id="bookingTime"
+                name="bookingTime"
+                min="11:00"
+                max="22:30"
+                step="900"
+                required
+            >
+
+            <small class="form-help">
+                Available every 15 minutes from
+                <strong>11:00 AM to 10:30 PM</strong>.
+            </small>
+
+
+            <!-- GUESTS -->
+
+            <select
+                id="bookingGuests"
+                required
+            >
+
+                <option value="">
+                    Number of Guests
+                </option>
+
+                <option value="1 Guest">
+                    1 Guest
+                </option>
+
+                <option value="2 Guests">
+                    2 Guests
+                </option>
+
+                <option value="3 Guests">
+                    3 Guests
+                </option>
+
+                <option value="4 Guests">
+                    4 Guests
+                </option>
+
+                <option value="5 Guests">
+                    5 Guests
+                </option>
+
+                <option value="6+ Guests">
+                    6+ Guests
+                </option>
+
+            </select>
+
+
+            <textarea
+                id="bookingNotes"
+                placeholder="Special request (optional)"
+            ></textarea>
+
+
+            <button
+                type="submit"
+                class="btn"
+                style="width:100%">
+                Confirm Reservation
+            </button>
+
+
+            <div
+                class="success"
+                id="bookingSuccess">
+            </div>
+
+        </form>
+
+    </div>
+
+</section>
+
+
+<!-- ================= FEEDBACK ================= -->
+
+<section id="feedback">
+
+    <div class="title">
+
+        <h2>
+            Customer Feedback
+        </h2>
+
+        <p>
+            Your experience matters to us ❤️
+        </p>
+
+    </div>
+
+
+    <div class="form-box">
+
+        <form onsubmit="submitFeedback(event)">
+
+            <input
+                type="text"
+                id="feedbackName"
+                placeholder="Your Name"
+                required
+            >
+
+            <input
+                type="email"
+                id="feedbackEmail"
+                placeholder="Your Email"
+                required
+            >
+
+            <label>
+                Rate Your Experience
+            </label>
+
+            <div class="stars">
+
+                <span class="star"
+                      onclick="rate(1)">★</span>
+
+                <span class="star"
+                      onclick="rate(2)">★</span>
+
+                <span class="star"
+                      onclick="rate(3)">★</span>
+
+                <span class="star"
+                      onclick="rate(4)">★</span>
+
+                <span class="star"
+                      onclick="rate(5)">★</span>
+
+            </div>
+
+            <textarea
+                id="feedbackMessage"
+                placeholder="Write your feedback..."
+                required
+            ></textarea>
+
+            <button class="btn"
+                    type="submit">
+                Submit Feedback
+            </button>
+
+            <div
+                class="success"
+                id="feedbackSuccess">
+                ⭐ Thank you! Your feedback has been submitted.
+            </div>
+
+        </form>
+
+    </div>
+
+</section>
+
+
+<!-- ================= ADMIN DASHBOARD ================= -->
+
+<section class="dashboard" id="dashboard">
+
+    <div class="title">
+
+        <h2>
+            RoyalBite Admin
+        </h2>
+
+        <p>
+            Manage orders, bookings and feedback
+        </p>
+
+    </div>
+
+
+    <div class="stats">
+
+        <div class="stat-card">
+            <h3>Total Orders</h3>
+            <strong id="totalOrders">0</strong>
+        </div>
+
+        <div class="stat-card">
+            <h3>Total Revenue</h3>
+            <strong id="totalRevenue">₹0</strong>
+        </div>
+
+        <div class="stat-card">
+            <h3>Total Bookings</h3>
+            <strong id="totalBookings">0</strong>
+        </div>
+
+        <div class="stat-card">
+            <h3>Total Feedback</h3>
+            <strong id="totalFeedback">0</strong>
+        </div>
+
+        <div class="stat-card">
+            <h3>Average Rating</h3>
+            <strong id="averageRating">0 ⭐</strong>
+        </div>
+
+    </div>
+
+
+    <div class="dashboard-tabs">
+
+        <button
+            class="tab-btn active"
+            onclick="showDashboardTab('orders',this)">
+            📦 Orders
+        </button>
+
+        <button
+            class="tab-btn"
+            onclick="showDashboardTab('bookings',this)">
+            📅 Bookings
+        </button>
+
+        <button
+            class="tab-btn"
+            onclick="showDashboardTab('feedbacks',this)">
+            ⭐ Feedback
+        </button>
+
+    </div>
+
+
+    <!-- ORDERS -->
+
+    <div id="ordersTab">
+
+        <div class="admin-toolbar">
+
+            <input
+                class="admin-search"
+                id="orderSearch"
+                placeholder="Search orders..."
+                oninput="renderOrders()"
+            >
+
+            <button
+                class="btn btn-danger btn-small"
+                onclick="clearOrders()">
+                Clear Orders
+            </button>
+
+        </div>
+
+
+        <div class="data-table">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>ID</th>
+                        <th>Customer</th>
+                        <th>Items</th>
+                        <th>Total</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="ordersTable"></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- BOOKINGS -->
+
+    <div id="bookingsTab"
+         style="display:none">
+
+        <div class="admin-toolbar">
+
+            <input
+                class="admin-search"
+                id="bookingSearch"
+                placeholder="Search bookings..."
+                oninput="renderBookings()"
+            >
+
+            <button
+                class="btn btn-danger btn-small"
+                onclick="clearBookings()">
+                Clear Bookings
+            </button>
+
+        </div>
+
+
+        <div class="data-table">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>ID</th>
+                        <th>Customer</th>
+                        <th>Phone</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Guests</th>
+                        <th>Notes</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="bookingsTable"></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- FEEDBACK -->
+
+    <div id="feedbacksTab"
+         style="display:none">
+
+        <div class="admin-toolbar">
+
+            <input
+                class="admin-search"
+                id="feedbackSearch"
+                placeholder="Search feedback..."
+                oninput="renderFeedbacks"
+            >
+
+            <button
+                class="btn btn-danger btn-small"
+                onclick="clearFeedbacks()">
+                Clear Feedback
+            </button>
+
+        </div>
+
+
+        <div class="data-table">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Rating</th>
+                        <th>Feedback</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="feedbackTable"></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= CONTACT ================= -->
+
+<section class="contact"
+         id="contact">
+
+    <div class="title">
+
+        <h2>
+            Contact Us
+        </h2>
+
+        <p>
+            We would love to hear from you
+        </p>
+
+    </div>
+
+
+    <div class="contact-box">
+
+        <div class="contact-item">
+
+            <h3>📍 Location</h3>
+
+            <p>
+                Pune, Maharashtra
+            </p>
+
+        </div>
+
+
+        <div class="contact-item">
+
+            <h3>📞 Phone</h3>
+
+            <p>
+                +91 98765 43210
+            </p>
+
+        </div>
+
+
+        <div class="contact-item">
+
+            <h3>✉ Email</h3>
+
+            <p>
+                hello@royalbite.com
+            </p>
+
+        </div>
+
+
+        <div class="contact-item">
+
+            <h3>🕐 Hours</h3>
+
+            <p>
+                11:00 AM – 10:30 PM
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= FLOATING CART ================= -->
+
+<div class="cart-float"
+     onclick="openCart()">
+
+    🛒
+
+    <span id="cartCount">
+        0
+    </span>
+
+</div>
+
+
+<!-- ================= CART MODAL ================= -->
+
+<div class="modal"
+     id="cartModal">
+
+    <div class="modal-box">
+
+        <span class="close"
+              onclick="closeModal('cartModal')">
+            &times;
+        </span>
+
+        <h2>
+            🛒 Your Cart
+        </h2>
+
+        <div id="cartItems"></div>
+
+        <div style="margin-top:20px">
+
+            <div class="total-row">
+                <span>Subtotal</span>
+                <strong id="cartSubtotal">₹0</strong>
+            </div>
+
+            <div class="total-row">
+                <span>GST 5%</span>
+                <strong id="cartTax">₹0</strong>
+            </div>
+
+            <div class="total-row grand-total">
+                <span>Total</span>
+                <strong id="cartGrandTotal">₹0</strong>
+            </div>
+
+        </div>
+
+        <br>
+
+        <button
+            class="btn"
+            style="width:100%"
+            onclick="openCheckout()">
+            Proceed to Checkout
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ================= CHECKOUT ================= -->
+
+<div class="modal"
+     id="checkoutModal">
+
+    <div class="modal-box">
+
+        <span class="close"
+              onclick="closeModal('checkoutModal')">
+            &times;
+        </span>
+
+        <h2>
+            💳 Complete Order
+        </h2>
+
+
+        <form onsubmit="placeOrder(event)">
+
+            <input
+                id="orderName"
+                type="text"
+                placeholder="Full Name"
+                required
+            >
+
+            <input
+                id="orderPhone"
+                type="tel"
+                placeholder="Phone Number"
+                required
+            >
+
+            <input
+                id="orderEmail"
+                type="email"
+                placeholder="Email Address"
+                required
+            >
+
+            <select id="orderType" required>
+
+                <option value="">
+                    Order Type
+                </option>
+
+                <option>
+                    Delivery
+                </option>
+
+                <option>
+                    Takeaway
+                </option>
+
+                <option>
+                    Dine-in
+                </option>
+
+            </select>
+
+            <textarea
+                id="orderAddress"
+                placeholder="Delivery address / table number"
+            ></textarea>
+
+            <select
+                id="paymentMethod"
+                required>
+
+                <option value="">
+                    Payment Method
+                </option>
+
+                <option>
+                    Cash on Delivery
+                </option>
+
+                <option>
+                    UPI
+                </option>
+
+                <option>
+                    Card
+                </option>
+
+            </select>
+
+            <button
+                class="btn"
+                style="width:100%">
+                Place Order
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- ================= ORDER RECEIPT ================= -->
+
+<div class="modal"
+     id="orderDetailsModal">
+
+    <div class="modal-box">
+
+        <span class="close"
+              onclick="closeModal('orderDetailsModal')">
+            &times;
+        </span>
+
+        <div id="orderDetails"></div>
+
+    </div>
+
+</div>
+
+
+<div class="toast"
+     id="toast">
+</div>
+
+
+<footer>
+
+    <p>
+        © 2026 RoyalBite Restaurant
+        | All Rights Reserved
+    </p>
+
+    <p style="margin-top:8px">
+        Fresh Food • Premium Experience • Royal Taste
+    </p>
+
+</footer>
+
+
+<script>
+
+/* =====================================================
+   DATA
+===================================================== */
+
+let cart =
+    JSON.parse(
+        localStorage.getItem("royalbite_cart")
+    ) || [];
+
+let orders =
+    JSON.parse(
+        localStorage.getItem("royalbite_orders")
+    ) || [];
+
+let bookings =
+    JSON.parse(
+        localStorage.getItem("royalbite_bookings")
+    ) || [];
+
+let feedbacks =
+    JSON.parse(
+        localStorage.getItem("royalbite_feedbacks")
+    ) || [];
+
+let selectedRating = 0;
+let currentCategory = "all";
+
+
+/* =====================================================
+   STORAGE
+===================================================== */
+
+function saveData(){
+
+    localStorage.setItem(
+        "royalbite_cart",
+        JSON.stringify(cart)
+    );
+
+    localStorage.setItem(
+        "royalbite_orders",
+        JSON.stringify(orders)
+    );
+
+    localStorage.setItem(
+        "royalbite_bookings",
+        JSON.stringify(bookings)
+    );
+
+    localStorage.setItem(
+        "royalbite_feedbacks",
+        JSON.stringify(feedbacks)
+    );
+}
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+function showToast(message){
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.innerText = message;
+
+    toast.classList.add("show");
+
+    setTimeout(function(){
+
+        toast.classList.remove("show");
+
+    },3000);
+}
+
+
+/* =====================================================
+   MOBILE MENU
+===================================================== */
+
+function toggleMenu(){
+
+    document
+        .getElementById("navMenu")
+        .classList.toggle("open");
+}
+
+
+/* =====================================================
+   LOCAL DATE
+===================================================== */
+
+function getLocalDate(){
+
+    const now = new Date();
+
+    const year =
+        now.getFullYear();
+
+    const month =
+        String(
+            now.getMonth() + 1
+        ).padStart(2,"0");
+
+    const day =
+        String(
+            now.getDate()
+        ).padStart(2,"0");
+
+    return `${year}-${month}-${day}`;
+}
+
+
+/* =====================================================
+   RESERVATION DATE/TIME SETUP
+===================================================== */
+
+function setupReservationDateTime(){
+
+    const dateInput =
+        document.getElementById("bookingDate");
+
+    const timeInput =
+        document.getElementById("bookingTime");
+
+    if(!dateInput || !timeInput){
+        return;
+    }
+
+
+    const today =
+        getLocalDate();
+
+
+    /* DATE */
+
+    dateInput.min = today;
+
+
+    /* TIME */
+
+    timeInput.min = "11:00";
+    timeInput.max = "22:30";
+    timeInput.step = "900";
+
+
+    /* WHEN DATE CHANGES */
+
+    dateInput.addEventListener(
+        "change",
+        function(){
+
+            const selectedDate =
+                dateInput.value;
+
+
+            if(!selectedDate){
+                return;
+            }
+
+
+            /*
+             Future date
+            */
+
+            if(selectedDate > today){
+
+                timeInput.min = "11:00";
+
+                if(
+                    timeInput.value &&
+                    timeInput.value < "11:00"
+                ){
+                    timeInput.value = "";
+                }
+
+                return;
+            }
+
+
+            /*
+             Today
+            */
+
+            if(selectedDate === today){
+
+                const now =
+                    new Date();
+
+                /*
+                 Add 30 minutes so customers
+                 cannot book immediately.
+                */
+
+                now.setMinutes(
+                    now.getMinutes() + 30
+                );
+
+
+                let hours =
+                    now.getHours();
+
+                let minutes =
+                    now.getMinutes();
+
+
+                /*
+                 Round UP to next 15-minute slot
+                */
+
+                minutes =
+                    Math.ceil(minutes / 15) * 15;
+
+
+                if(minutes >= 60){
+
+                    hours++;
+                    minutes = 0;
+                }
+
+
+                let minimumTime =
+                    String(hours)
+                    .padStart(2,"0")
+                    + ":" +
+                    String(minutes)
+                    .padStart(2,"0");
+
+
+                /*
+                 Before opening
+                */
+
+                if(minimumTime < "11:00"){
+
+                    minimumTime = "11:00";
+                }
+
+
+                timeInput.min =
+                    minimumTime;
+
+
+                /*
+                 Restaurant closed
+                */
+
+                if(minimumTime > "22:30"){
+
+                    timeInput.value = "";
+
+                    showToast(
+                        "⏰ Today's reservation time has ended. Please choose another date."
+                    );
+
+                    return;
+                }
+
+
+                /*
+                 Clear invalid selected time
+                */
+
+                if(
+                    timeInput.value &&
+                    timeInput.value < minimumTime
+                ){
+
+                    timeInput.value = "";
+
+                    showToast(
+                        "🕐 Please choose a later time."
+                    );
+                }
+
+            }
+
+        }
+    );
+
+
+    /*
+     Validate time
+    */
+
+    timeInput.addEventListener(
+        "change",
+        function(){
+
+            if(!timeInput.value){
+                return;
+            }
+
+
+            if(
+                timeInput.value < timeInput.min ||
+                timeInput.value > "22:30"
+            ){
+
+                timeInput.value = "";
+
+                showToast(
+                    "🕐 Please choose a time between 11:00 AM and 10:30 PM."
+                );
+            }
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   BOOKING
+===================================================== */
+
+function bookTable(event){
+
+    event.preventDefault();
+
+
+    const name =
+        document
+        .getElementById("bookingName")
+        .value
+        .trim();
+
+
+    const email =
+        document
+        .getElementById("bookingEmail")
+        .value
+        .trim();
+
+
+    const phone =
+        document
+        .getElementById("bookingPhone")
+        .value
+        .trim();
+
+
+    const date =
+        document
+        .getElementById("bookingDate")
+        .value;
+
+
+    const time =
+        document
+        .getElementById("bookingTime")
+        .value;
+
+
+    const guests =
+        document
+        .getElementById("bookingGuests")
+        .value;
+
+
+    const notes =
+        document
+        .getElementById("bookingNotes")
+        .value
+        .trim();
+
+
+    const today =
+        getLocalDate();
+
+
+    /* VALIDATION */
+
+    if(!name){
+
+        showToast("Please enter your name.");
+        return;
+    }
+
+
+    if(!email){
+
+        showToast("Please enter your email.");
+        return;
+    }
+
+
+    if(!phone){
+
+        showToast("Please enter your phone number.");
+        return;
+    }
+
+
+    if(!date){
+
+        showToast(
+            "📅 Please select a reservation date."
+        );
+
+        return;
+    }
+
+
+    if(!time){
+
+        showToast(
+            "🕐 Please select a reservation time."
+        );
+
+        return;
+    }
+
+
+    if(!guests){
+
+        showToast(
+            "👥 Please select number of guests."
+        );
+
+        return;
+    }
+
+
+    /*
+     Past date check
+    */
+
+    if(date < today){
+
+        showToast(
+            "❌ You cannot select a past date."
+        );
+
+        return;
+    }
+
+
+    /*
+     Restaurant hours
+    */
+
+    if(
+        time < "11:00" ||
+        time > "22:30"
+    ){
+
+        showToast(
+            "🕐 Restaurant hours are 11:00 AM to 10:30 PM."
+        );
+
+        return;
+    }
+
+
+    /*
+     Today's time check
+    */
+
+    if(date === today){
+
+        const now =
+            new Date();
+
+        const currentTime =
+            String(now.getHours())
+            .padStart(2,"0")
+            + ":" +
+            String(now.getMinutes())
+            .padStart(2,"0");
+
+
+        if(time <= currentTime){
+
+            showToast(
+                "⏰ Please select a future time."
+            );
+
+            return;
+        }
+
+    }
+
+
+    /*
+     Create booking
+    */
+
+    const booking = {
+
+        id:
+            "BK-" +
+            Date.now()
+            .toString()
+            .slice(-6),
+
+        name:name,
+
+        email:email,
+
+        phone:phone,
+
+        date:date,
+
+        time:time,
+
+        guests:guests,
+
+        notes:notes,
+
+        status:"Pending",
+
+        created:
+            new Date()
+            .toLocaleString("en-IN")
+
+    };
+
+
+    bookings.unshift(booking);
+
+    saveData();
+
+
+    /*
+     Success message
+    */
+
+    const success =
+        document.getElementById(
+            "bookingSuccess"
+        );
+
+
+    success.innerHTML = `
+
+        <strong>
+            ✅ Reservation Submitted Successfully!
+        </strong>
+
+        <br>
+
+        👤 ${escapeHTML(name)}
+
+        <br>
+
+        📅 ${formatBookingDate(date)}
+
+        <br>
+
+        🕐 ${formatBookingTime(time)}
+
+        <br>
+
+        👥 ${escapeHTML(guests)}
+
+        <br>
+
+        🎫 Booking ID:
+        <strong>${booking.id}</strong>
+
+    `;
+
+
+    success.style.display = "block";
+
+
+    event.target.reset();
+
+
+    renderDashboard();
+
+
+    showToast(
+        "🎉 Table reservation successful!"
+    );
+
+
+    /*
+     Restore date/time setup
+    */
+
+    setupReservationDateTime();
+
+
+    setTimeout(function(){
+
+        success.style.display = "none";
+
+    },8000);
+
+}
+
+
+/* =====================================================
+   BOOKING DATE FORMAT
+===================================================== */
+
+function formatBookingDate(date){
+
+    if(!date){
+        return "-";
+    }
+
+    const parts =
+        date.split("-");
+
+    if(parts.length !== 3){
+        return date;
+    }
+
+    return (
+        parts[2] +
+        "/" +
+        parts[1] +
+        "/" +
+        parts[0]
+    );
+}
+
+
+/* =====================================================
+   BOOKING TIME FORMAT
+===================================================== */
+
+function formatBookingTime(time){
+
+    if(!time){
+        return "-";
+    }
+
+    const parts =
+        time.split(":");
+
+    let hour =
+        Number(parts[0]);
+
+    const minute =
+        parts[1];
+
+    const ampm =
+        hour >= 12
+        ? "PM"
+        : "AM";
+
+    hour =
+        hour % 12;
+
+    if(hour === 0){
+        hour = 12;
+    }
+
+    return (
+        hour +
+        ":" +
+        minute +
+        " " +
+        ampm
+    );
+}
+
+
+/* =====================================================
+   CART
+===================================================== */
+
+function addToCart(name,price){
+
+    const existing =
+        cart.find(
+            item => item.name === name
+        );
+
+
+    if(existing){
+
+        existing.qty++;
+
+    }else{
+
+        cart.push({
+            name:name,
+            price:price,
+            qty:1
+        });
+
+    }
+
+
+    saveData();
+
+    updateCartUI();
+
+    showToast(
+        "🍽️ " + name + " added to cart!"
+    );
+}
+
+
+function changeQty(name,change){
+
+    const item =
+        cart.find(
+            item => item.name === name
+        );
+
+    if(!item){
+        return;
+    }
+
+
+    item.qty += change;
+
+
+    if(item.qty <= 0){
+
+        cart =
+            cart.filter(
+                product =>
+                product.name !== name
+            );
+    }
+
+
+    saveData();
+
+    updateCartUI();
+}
+
+
+function removeFromCart(name){
+
+    cart =
+        cart.filter(
+            item =>
+            item.name !== name
+        );
+
+    saveData();
+
+    updateCartUI();
+}
+
+
+function getCartCount(){
+
+    return cart.reduce(
+        (sum,item) =>
+        sum + item.qty,
+        0
+    );
+}
+
+
+function getSubtotal(){
+
+    return cart.reduce(
+        (sum,item) =>
+        sum + item.price * item.qty,
+        0
+    );
+}
+
+
+function getTax(){
+
+    return Math.round(
+        getSubtotal() * .05
+    );
+}
+
+
+function getGrandTotal(){
+
+    return (
+        getSubtotal() +
+        getTax()
+    );
+}
+
+
+function updateCartUI(){
+
+    const count =
+        getCartCount();
+
+
+    document.getElementById(
+        "cartCount"
+    ).innerText = count;
+
+
+    document.getElementById(
+        "navCartCount"
+    ).innerText = count;
+
+
+    renderCart();
+}
+
+
+function renderCart(){
+
+    const box =
+        document.getElementById(
+            "cartItems"
+        );
+
+
+    if(cart.length === 0){
+
+        box.innerHTML = `
+            <div class="empty">
+                🛒 Your cart is empty.
+                <br><br>
+                Add delicious food from our menu.
+            </div>
+        `;
+
+    }else{
+
+        box.innerHTML =
+            cart.map(item => `
+
+                <div class="cart-item">
+
+                    <div>
+
+                        <strong>
+                            ${escapeHTML(item.name)}
+                        </strong>
+
+                        <br>
+
+                        <small style="color:#888">
+                            ₹${item.price}
+                        </small>
+
+                    </div>
+
+                    <div class="qty-controls">
+
+                        <button
+                            class="qty-btn"
+                            onclick="changeQty('${escapeJS(item.name)}',-1)">
+                            −
+                        </button>
+
+                        <strong>
+                            ${item.qty}
+                        </strong>
+
+                        <button
+                            class="qty-btn"
+                            onclick="changeQty('${escapeJS(item.name)}',1)">
+                            +
+                        </button>
+
+                        <button
+                            class="qty-btn"
+                            onclick="removeFromCart('${escapeJS(item.name)}')">
+                            ×
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `).join("");
+
+    }
+
+
+    document.getElementById(
+        "cartSubtotal"
+    ).innerText =
+        "₹" + getSubtotal();
+
+
+    document.getElementById(
+        "cartTax"
+    ).innerText =
+        "₹" + getTax();
+
+
+    document.getElementById(
+        "cartGrandTotal"
+    ).innerText =
+        "₹" + getGrandTotal();
+
+}
+
+
+function openCart(){
+
+    renderCart();
+
+    document
+        .getElementById("cartModal")
+        .classList.add("show");
+
+    document.body.classList.add(
+        "modal-open"
+    );
+}
+
+
+function openCheckout(){
+
+    if(cart.length === 0){
+
+        showToast(
+            "🛒 Your cart is empty."
+        );
+
+        return;
+    }
+
+
+    closeModal("cartModal");
+
+
+    document
+        .getElementById("checkoutModal")
+        .classList.add("show");
+
+    document.body.classList.add(
+        "modal-open"
+    );
+}
+
+
+/* =====================================================
+   ORDER
+===================================================== */
+
+function placeOrder(event){
+
+    event.preventDefault();
+
+
+    const order = {
+
+        id:
+            "RB-" +
+            Date.now()
+            .toString()
+            .slice(-6),
+
+        customer:
+            document
+            .getElementById("orderName")
+            .value,
+
+        phone:
+            document
+            .getElementById("orderPhone")
+            .value,
+
+        email:
+            document
+            .getElementById("orderEmail")
+            .value,
+
+        type:
+            document
+            .getElementById("orderType")
+            .value,
+
+        address:
+            document
+            .getElementById("orderAddress")
+            .value,
+
+        payment:
+            document
+            .getElementById("paymentMethod")
+            .value,
+
+        items:
+            JSON.parse(
+                JSON.stringify(cart)
+            ),
+
+        subtotal:
+            getSubtotal(),
+
+        tax:
+            getTax(),
+
+        total:
+            getGrandTotal(),
+
+        status:
+            "Pending",
+
+        date:
+            new Date()
+            .toLocaleString("en-IN")
+    };
+
+
+    orders.unshift(order);
+
+    cart = [];
+
+    saveData();
+
+    updateCartUI();
+
+    event.target.reset();
+
+    closeModal("checkoutModal");
+
+    renderDashboard();
+
+    showToast(
+        "🎉 Order " +
+        order.id +
+        " placed!"
+    );
+
+
+    setTimeout(function(){
+
+        showOrderDetails(
+            order.id
+        );
+
+    },500);
+
+}
+
+
+/* =====================================================
+   ORDER RECEIPT
+===================================================== */
+
+function showOrderDetails(id){
+
+    const order =
+        orders.find(
+            item => item.id === id
+        );
+
+    if(!order){
+        return;
+    }
+
+
+    const items =
+        order.items.map(
+            item => `
+
+                <div class="total-row">
+
+                    <span>
+                        ${escapeHTML(item.name)}
+                        × ${item.qty}
+                    </span>
+
+                    <strong>
+                        ₹${item.price * item.qty}
+                    </strong>
+
+                </div>
+
+            `
+        ).join("");
+
+
+    document.getElementById(
+        "orderDetails"
+    ).innerHTML = `
+
+        <h2>
+            🧾 Order Receipt
+        </h2>
+
+        <p>
+            <strong>Order ID:</strong>
+            ${order.id}
+        </p>
+
+        <p style="margin-top:8px">
+            <strong>Customer:</strong>
+            ${escapeHTML(order.customer)}
+        </p>
+
+        <hr style="margin:20px 0;border-color:#333">
+
+        ${items}
+
+        <hr style="margin:20px 0;border-color:#333">
+
+        <div class="total-row">
+            <span>Subtotal</span>
+            <strong>₹${order.subtotal}</strong>
+        </div>
+
+        <div class="total-row">
+            <span>GST</span>
+            <strong>₹${order.tax}</strong>
+        </div>
+
+        <div class="total-row grand-total">
+            <span>Total</span>
+            <strong>₹${order.total}</strong>
+        </div>
+
+        <p style="margin-top:20px;color:#888">
+            ${order.date}
+        </p>
+
+        <br>
+
+        <button
+            class="btn"
+            style="width:100%"
+            onclick="closeModal('orderDetailsModal')">
+            Done
+        </button>
+    `;
+
+
+    document
+        .getElementById("orderDetailsModal")
+        .classList.add("show");
+
+    document.body.classList.add(
+        "modal-open"
+    );
+}
+
+
+/* =====================================================
+   MENU FILTER
+===================================================== */
+
+function filterMenu(){
+
+    const search =
+        document.getElementById(
+            "search"
+        )
+        .value
+        .toLowerCase();
+
+
+    document
+        .querySelectorAll(".card")
+        .forEach(card => {
+
+            const name =
+                card.dataset.name
+                .toLowerCase();
+
+            const category =
+                card.dataset.category;
+
+
+            const searchMatch =
+                name.includes(search);
+
+            const categoryMatch =
+                currentCategory === "all" ||
+                category === currentCategory;
+
+
+            card.style.display =
+                searchMatch && categoryMatch
+                ? "block"
+                : "none";
+
+        });
+}
+
+
+function filterCategory(category,button){
+
+    currentCategory =
+        category;
+
+
+    document
+        .querySelectorAll(".category-btn")
+        .forEach(btn =>
+            btn.classList.remove("active")
+        );
+
+
+    button.classList.add("active");
+
+
+    filterMenu();
+}
+
+
+/* =====================================================
+   FEEDBACK
+===================================================== */
+
+function rate(number){
+
+    selectedRating =
+        number;
+
+
+    document
+        .querySelectorAll(".star")
+        .forEach(
+            (star,index) => {
+
+                if(index < number){
+
+                    star.classList.add(
+                        "active"
+                    );
+
+                }else{
+
+                    star.classList.remove(
+                        "active"
+                    );
+
+                }
+
+            }
+        );
+}
+
+
+function submitFeedback(event){
+
+    event.preventDefault();
+
+
+    if(selectedRating === 0){
+
+        showToast(
+            "⭐ Please select a rating."
+        );
+
+        return;
+    }
+
+
+    const feedback = {
+
+        id:
+            "FB-" +
+            Date.now()
+            .toString()
+            .slice(-6),
+
+        name:
+            document
+            .getElementById(
+                "feedbackName"
+            )
+            .value,
+
+        email:
+            document
+            .getElementById(
+                "feedbackEmail"
+            )
+            .value,
+
+        rating:
+            selectedRating,
+
+        message:
+            document
+            .getElementById(
+                "feedbackMessage"
+            )
+            .value,
+
+        date:
+            new Date()
+            .toLocaleString("en-IN")
+    };
+
+
+    feedbacks.unshift(
+        feedback
+    );
+
+
+    saveData();
+
+
+    document.getElementById(
+        "feedbackSuccess"
+    ).style.display =
+        "block";
+
+
+    event.target.reset();
+
+
+    selectedRating = 0;
+
+
+    document
+        .querySelectorAll(".star")
+        .forEach(
+            star =>
+            star.classList.remove(
+                "active"
+            )
+        );
+
+
+    renderDashboard();
+
+
+    showToast(
+        "⭐ Feedback submitted!"
+    );
+
+}
+
+
+/* =====================================================
+   DASHBOARD
+===================================================== */
+
+function renderDashboard(){
+
+    document.getElementById(
+        "totalOrders"
+    ).innerText =
+        orders.length;
+
+
+    const revenue =
+        orders.reduce(
+            (sum,order) =>
+            sum + Number(order.total || 0),
+            0
+        );
+
+
+    document.getElementById(
+        "totalRevenue"
+    ).innerText =
+        "₹" + revenue;
+
+
+    document.getElementById(
+        "totalBookings"
+    ).innerText =
+        bookings.length;
+
+
+    document.getElementById(
+        "totalFeedback"
+    ).innerText =
+        feedbacks.length;
+
+
+    const average =
+        feedbacks.length
+        ? (
+            feedbacks.reduce(
+                (sum,item) =>
+                sum + Number(item.rating),
+                0
+            ) / feedbacks.length
+        ).toFixed(1)
+        : "0";
+
+
+    document.getElementById(
+        "averageRating"
+    ).innerText =
+        average + " ⭐";
+
+
+    renderOrders();
+
+    renderBookings();
+
+    renderFeedbacks();
+
+}
+
+
+function showDashboardTab(tab,button){
+
+    document
+        .querySelectorAll(".tab-btn")
+        .forEach(
+            btn =>
+            btn.classList.remove(
+                "active"
+            )
+        );
+
+
+    button.classList.add("active");
+
+
+    document.getElementById(
+        "ordersTab"
+    ).style.display =
+        tab === "orders"
+        ? "block"
+        : "none";
+
+
+    document.getElementById(
+        "bookingsTab"
+    ).style.display =
+        tab === "bookings"
+        ? "block"
+        : "none";
+
+
+    document.getElementById(
+        "feedbacksTab"
+    ).style.display =
+        tab === "feedbacks"
+        ? "block"
+        : "none";
+
+}
+
+
+/* =====================================================
+   ORDERS TABLE
+===================================================== */
+
+function renderOrders(){
+
+    const tbody =
+        document.getElementById(
+            "ordersTable"
+        );
+
+
+    const search =
+        (
+            document.getElementById(
+                "orderSearch"
+            )?.value || ""
+        ).toLowerCase();
+
+
+    const filtered =
+        orders.filter(
+            order =>
+            order.id
+            .toLowerCase()
+            .includes(search) ||
+
+            order.customer
+            .toLowerCase()
+            .includes(search)
+        );
+
+
+    if(filtered.length === 0){
+
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="7"
+                    class="empty">
+                    No orders found.
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+
+    tbody.innerHTML =
+        filtered.map(
+            order => {
+
+                const items =
+                    order.items
+                    .map(
+                        item =>
+                        `${escapeHTML(item.name)} ×${item.qty}`
+                    )
+                    .join(", ");
+
+
+                return `
+
+                <tr>
+
+                    <td>
+                        <strong>
+                            ${order.id}
+                        </strong>
+                    </td>
+
+                    <td>
+                        ${escapeHTML(order.customer)}
+                    </td>
+
+                    <td>
+                        ${items}
+                    </td>
+
+                    <td>
+                        <strong style="color:var(--gold)">
+                            ₹${order.total}
+                        </strong>
+                    </td>
+
+                    <td>
+                        ${order.date}
+                    </td>
+
+                    <td>
+
+                        <select
+                            onchange="updateOrderStatus('${order.id}',this.value)"
+                            style="
+                            background:#111;
+                            color:white;
+                            border:1px solid #444;
+                            padding:6px;
+                            border-radius:6px;">
+
+                            <option ${order.status==="Pending"?"selected":""}>
+                                Pending
+                            </option>
+
+                            <option ${order.status==="Confirmed"?"selected":""}>
+                                Confirmed
+                            </option>
+
+                            <option ${order.status==="Completed"?"selected":""}>
+                                Completed
+                            </option>
+
+                            <option ${order.status==="Cancelled"?"selected":""}>
+                                Cancelled
+                            </option>
+
+                        </select>
+
+                    </td>
+
+                    <td>
+
+                        <button
+                            class="btn btn-small"
+                            onclick="showOrderDetails('${order.id}')">
+                            View
+                        </button>
+
+                        <button
+                            class="btn btn-danger btn-small"
+                            onclick="deleteOrder('${order.id}')">
+                            Delete
+                        </button>
+
+                    </td>
+
+                </tr>
+
+                `;
+
+            }
+        ).join("");
+
+}
+
+
+function updateOrderStatus(id,status){
+
+    const order =
+        orders.find(
+            item => item.id === id
+        );
+
+
+    if(!order){
+        return;
+    }
+
+
+    order.status =
+        status;
+
+
+    saveData();
+
+    renderDashboard();
+
+    showToast(
+        "Order " +
+        id +
+        " → " +
+        status
+    );
+
+}
+
+
+function deleteOrder(id){
+
+    if(!confirm(
+        "Delete this order?"
+    )){
+        return;
+    }
+
+
+    orders =
+        orders.filter(
+            item =>
+            item.id !== id
+        );
+
+
+    saveData();
+
+    renderDashboard();
+
+    showToast(
+        "Order deleted."
+    );
+}
+
+
+function clearOrders(){
+
+    if(!confirm(
+        "Delete ALL orders?"
+    )){
+        return;
+    }
+
+
+    orders = [];
+
+    saveData();
+
+    renderDashboard();
+
+}
+
+
+/* =====================================================
+   BOOKINGS TABLE
+===================================================== */
+
+function renderBookings(){
+
+    const tbody =
+        document.getElementById(
+            "bookingsTable"
+        );
+
+
+    const search =
+        (
+            document.getElementById(
+                "bookingSearch"
+            )?.value || ""
+        ).toLowerCase();
+
+
+    const filtered =
+        bookings.filter(
+            booking =>
+
+            booking.id
+            .toLowerCase()
+            .includes(search) ||
+
+            booking.name
+            .toLowerCase()
+            .includes(search) ||
+
+            booking.phone
+            .toLowerCase()
+            .includes(search)
+        );
+
+
+    if(filtered.length === 0){
+
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="9"
+                    class="empty">
+                    No bookings found.
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+
+    tbody.innerHTML =
+        filtered.map(
+            booking => `
+
+            <tr>
+
+                <td>
+                    <strong>
+                        ${booking.id}
+                    </strong>
+                </td>
+
+                <td>
+                    ${escapeHTML(booking.name)}
+                    <br>
+                    <small style="color:#777">
+                        ${escapeHTML(booking.email)}
+                    </small>
+                </td>
+
+                <td>
+                    ${escapeHTML(booking.phone)}
+                </td>
+
+                <td>
+                    📅
+                    ${formatBookingDate(
+                        booking.date
+                    )}
+                </td>
+
+                <td>
+                    🕐
+                    ${formatBookingTime(
+                        booking.time
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHTML(
+                        booking.guests
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHTML(
+                        booking.notes || "-"
+                    )}
+                </td>
+
+                <td>
+
+                    <select
+                        onchange="updateBookingStatus('${booking.id}',this.value)"
+                        style="
+                        background:#111;
+                        color:white;
+                        border:1px solid #444;
+                        padding:6px;
+                        border-radius:6px;">
+
+                        <option ${booking.status==="Pending"?"selected":""}>
+                            Pending
+                        </option>
+
+                        <option ${booking.status==="Confirmed"?"selected":""}>
+                            Confirmed
+                        </option>
+
+                        <option ${booking.status==="Completed"?"selected":""}>
+                            Completed
+                        </option>
+
+                        <option ${booking.status==="Cancelled"?"selected":""}>
+                            Cancelled
+                        </option>
+
+                    </select>
+
+                </td>
+
+                <td>
+
+                    <button
+                        class="btn btn-danger btn-small"
+                        onclick="deleteBooking('${booking.id}')">
+                        Delete
+                    </button>
+
+                </td>
+
+            </tr>
+
+        `
+        ).join("");
+
+}
+
+
+function updateBookingStatus(id,status){
+
+    const booking =
+        bookings.find(
+            item => item.id === id
+        );
+
+
+    if(!booking){
+        return;
+    }
+
+
+    booking.status =
+        status;
+
+
+    saveData();
+
+    renderDashboard();
+
+    showToast(
+        "Booking " +
+        id +
+        " → " +
+        status
+    );
+}
+
+
+function deleteBooking(id){
+
+    if(!confirm(
+        "Delete this booking?"
+    )){
+        return;
+    }
+
+
+    bookings =
+        bookings.filter(
+            item =>
+            item.id !== id
+        );
+
+
+    saveData();
+
+    renderDashboard();
+
+    showToast(
+        "Booking deleted."
+    );
+}
+
+
+function clearBookings(){
+
+    if(!confirm(
+        "Delete ALL bookings?"
+    )){
+        return;
+    }
+
+
+    bookings = [];
+
+    saveData();
+
+    renderDashboard();
+
+}
+
+
+/* =====================================================
+   FEEDBACK TABLE
+===================================================== */
+
+function renderFeedbacks(){
+
+    const tbody =
+        document.getElementById(
+            "feedbackTable"
+        );
+
+
+    const search =
+        (
+            document.getElementById(
+                "feedbackSearch"
+            )?.value || ""
+        ).toLowerCase();
+
+
+    const filtered =
+        feedbacks.filter(
+            item =>
+
+            item.name
+            .toLowerCase()
+            .includes(search) ||
+
+            item.message
+            .toLowerCase()
+            .includes(search)
+        );
+
+
+    if(filtered.length === 0){
+
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="6"
+                    class="empty">
+                    No feedback found.
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+
+    tbody.innerHTML =
+        filtered.map(
+            item => `
+
+            <tr>
+
+                <td>
+                    ${escapeHTML(item.name)}
+                </td>
+
+                <td>
+                    ${escapeHTML(item.email)}
+                </td>
+
+                <td style="color:var(--gold)">
+                    ${"★".repeat(item.rating)}
+                </td>
+
+                <td>
+                    ${escapeHTML(item.message)}
+                </td>
+
+                <td>
+                    ${item.date}
+                </td>
+
+                <td>
+
+                    <button
+                        class="btn btn-danger btn-small"
+                        onclick="deleteFeedback('${item.id}')">
+                        Delete
+                    </button>
+
+                </td>
+
+            </tr>
+
+        `
+        ).join("");
+
+}
+
+
+function deleteFeedback(id){
+
+    if(!confirm(
+        "Delete this feedback?"
+    )){
+        return;
+    }
+
+
+    feedbacks =
+        feedbacks.filter(
+            item =>
+            item.id !== id
+        );
+
+
+    saveData();
+
+    renderDashboard();
+
+}
+
+
+function clearFeedbacks(){
+
+    if(!confirm(
+        "Delete ALL feedback?"
+    )){
+        return;
+    }
+
+
+    feedbacks = [];
+
+    saveData();
+
+    renderDashboard();
+
+}
+
+
+/* =====================================================
+   MODALS
+===================================================== */
+
+function closeModal(id){
+
+    document
+        .getElementById(id)
+        .classList.remove("show");
+
+    document.body.classList.remove(
+        "modal-open"
+    );
+}
+
+
+window.addEventListener(
+    "click",
+    function(event){
+
+        document
+            .querySelectorAll(".modal")
+            .forEach(modal => {
+
+                if(event.target === modal){
+
+                    modal.classList.remove(
+                        "show"
+                    );
+
+                    document.body.classList.remove(
+                        "modal-open"
+                    );
+
+                }
+
+            });
+
+    }
+);
+
+
+/* =====================================================
+   SECURITY HELPERS
+===================================================== */
+
+function escapeHTML(value){
+
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
+
+
+function escapeJS(value){
+
+    return String(value)
+        .replace(/\\/g,"\\\\")
+        .replace(/'/g,"\\'");
+}
+
+
+/* =====================================================
+   START WEBSITE
+===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
+
+        setupReservationDateTime();
+
+        updateCartUI();
+
+        renderDashboard();
+
+    }
+);
+
+</script>
+
+</body>
+</html>
